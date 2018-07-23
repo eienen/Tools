@@ -1,0 +1,319 @@
+def add():
+
+    while True:
+                agenda = open("agenda.txt", "a+")
+                nome = input("Nome para adicionar: ")
+                numero = input("Número para adicionar: ")
+                agenda.write(nome + " " + numero + "\n")
+                print()
+                print(nome,numero,"adicionado")
+                print()
+
+                while True:
+
+                    comando_mais = input("Digite '+' para adicionar ou 'q' para sair ")
+
+                    if comando_mais == "+":
+                        break
+
+                    elif comando_mais == "q":
+                        break
+
+
+                if comando_mais == "q":
+
+                    agenda.close()
+                    agenda = open("agenda.txt", "r")
+
+                    agenda.seek(0)
+
+                    listita = []
+
+                    items_line = agenda.readline().strip()
+
+                    while items_line:
+                        listita.append(items_line)
+                        items_line = agenda.readline().strip()
+
+                    listita.sort()
+
+                    agenda.close()
+
+                    agenda = open("agenda.txt", "w")
+
+                    for iteration in listita:
+                        agenda.write(iteration + "\n")
+
+                    agenda.close()
+                    break
+                    
+###################################                    
+
+def search():
+
+    print()
+    agenda = open("agenda.txt", "r")
+    
+    pesquisa = []
+    items = agenda.readline().strip()
+    while items:
+        pesquisa.append(items)
+        items = agenda.readline().strip()
+        
+    resultado = []
+        
+    while True:
+        nome = input("Digite o nome que deseja pesquisar ou 'q' para sair: ")
+
+        if nome == "q":
+            agenda.close()
+            break
+            
+        else:    
+            for iteration in pesquisa:
+                if nome in iteration:
+                    if iteration in resultado:
+                        pass
+                    else:
+                        resultado.append(iteration)
+                
+        if resultado:
+            print()
+            print("Resultados encontrados:\n")
+            for iteration in resultado:
+                print("-",iteration)
+                    
+            agenda.close()
+            break
+                    
+        else:
+            print()
+            print("Nome não encontrado") 
+            print()
+            
+            
+###################################
+
+
+def minus():
+
+    # abrindo arquivo
+    
+    agenda = open("agenda.txt", "r+")
+
+    # transformando arquivo em lista
+    
+    agenda_item = agenda.readline().strip()
+    
+    listita = []
+
+    while agenda_item:
+        listita.append(agenda_item)
+        agenda_item = agenda.readline().strip()
+    
+    # fechando e reabrindo arquivo
+    
+    agenda.close()
+    
+    agenda = open("agenda.txt", "r+")
+    agenda_total = agenda.read()
+    
+    # chamando ação
+
+    while True:
+        
+        print()
+        deletar = input("Digite o nome que gostaria de deletar, 'todos' para visualizar a agenda toda ou 'q' para sair: ")
+        
+        # todos
+        
+        if deletar == "todos":
+            print()
+            print(agenda_total)
+            delete = input("Digite o nome que gostaria de deletar ou 'q' para sair: ")
+
+            if delete == "q":
+                break
+
+            else:
+
+                del_listinha = []
+
+                for iteration in listita:
+                    dividido = iteration.split()
+
+                    if delete in dividido[0]:
+                        del_listinha.append(iteration)
+
+                if del_listinha:
+                    print()
+                    print("Lista de contatos com o nome digitado: ")
+                    print()
+                    count = 1
+                    for iteration in del_listinha:
+                        print(str(count) + ". "+ iteration)
+                        count += 1
+                        
+                    count -= 1
+
+                    while True: 
+                        dell = input("Digite o número do item a ser deletado ou 'q' para sair: ")
+
+                        if dell.isdigit() and int(dell) > 0 and int(dell) <= count:
+                            
+                            dell = int(dell)
+                            
+                            apagar = del_listinha[dell-1]
+                            listita.remove(apagar)
+
+                            print()
+                            print(del_listinha.pop(dell-1),"removido com sucesso")
+                            print()
+                            break
+                        
+                        elif dell == "q":
+                            break
+                            
+                        else:
+                            print("Parâmetro inválido")
+
+                else:
+                    print()
+                    print("Nome não encontrado")
+                    return minus()
+        
+        # sair
+        
+        elif deletar == "q":
+            break
+        
+        # por nome            
+                    
+        else:
+            del_listinha = []
+
+            for iteration in listita:    
+                dividido = iteration.split()
+
+                if deletar in dividido[0]:
+                    del_listinha.append(iteration)
+
+            if del_listinha:
+                print()
+                print("Lista de contatos com o nome digitado: ")
+                print()
+                count = 1
+                for iteration in del_listinha:
+                    print(str(count) + ". "+ iteration)
+                    count += 1
+                    
+                count -= 1
+
+                while True: 
+                    print()
+                    dell = input("Digite o número do item a ser deletado ou 'q' para sair: ")
+
+                    if dell.isdigit() and int(dell) > 0 and int(dell) <= count:
+                        
+                        dell = int(dell)
+                        
+                        apagar = del_listinha[dell-1]
+                        listita.remove(apagar)
+
+                        print()
+                        print(del_listinha.pop(dell-1),"removido com sucesso")
+                        print()
+                        break
+            
+                    elif dell == "q":
+                        break
+
+                    else:
+                        print("Parâmetro inválido")
+
+
+            else:
+                print()
+                print("Nome não encontrado")
+                return minus()
+                    
+
+        break
+
+    agenda.close()
+
+    agenda = open("agenda.txt", "w")
+
+    for iteration in listita:
+        agenda.write(iteration + "\n")
+
+    agenda.close()
+     
+     
+###################################
+
+def alll():
+    print()
+    agenda = open("agenda.txt", "r")
+    agenda.seek(0)
+        
+    leitura = agenda.read()
+    
+    print(leitura)
+        
+    agenda.close()
+    
+    
+###################################
+
+while True:
+    
+    comando = input("Digite '+' para adicionar, 's' para pesquisar, '-' para deletar, 'all' para visualizar a agenda toda e 'q' para sair ")
+
+    if comando == "+":
+        
+        somar = add()
+                
+    ##################################
+
+    elif comando == "s":
+        
+        import os
+        if os.path.isfile("agenda.txt"):
+            pesquisar = search()
+            
+        else:
+            print()
+            print("Agenda vazia")
+                
+    ##################################
+    
+    elif comando == "-":
+  
+        import os
+        if os.path.isfile("agenda.txt"):
+            deletar = minus()
+            
+        else:
+            print()
+            print("Agenda vazia")
+    
+    ##################################    
+    
+    elif comando == "q":
+        print()
+        print("Finalizando sessão")
+        break
+        
+        
+    ##################################
+    
+    elif comando == "all":
+        
+        import os
+        if os.path.isfile("agenda.txt"):
+            todos = alll()
+            
+        else:
+            print()
+            print("Agenda vazia")
