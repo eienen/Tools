@@ -1,0 +1,634 @@
+import os
+
+PR = {"Deadlift": "0", "Clean": "0", "Squat": "0", "Back Squat": "0", "Bench Press": "0",
+      "Clean": "0", "Clean & Jerk": "0", "Cluster": "0", "Deadlift": "0", "Front Squat": "0",
+       "Hang Power Clean": "0", "Hang Power Snatch": "0", "Hang Squat Clean": "0", "Hang Squat Snatch": "0",
+       "Muscle Clean": "0", "Muscle Snatch": "0", "Overhead Lunge": "0", "Overhead Squat": "0",
+       "Power Clean": "0", "Power Snatch": "0", "Push Jerk": "0", "Push Press": "0", "Shoulder Press": "0",
+       "Snatch": "0", "Snatch Balance": "0", "Split Jerk": "0", "Squat Clean": "0", "Squat Snatch": "0",
+       "Sumo Deadlift": "0", "Sumo Deadlift High Pull": "0", "Thruster": "0"}
+       
+
+######
+######
+######
+
+
+def pr_():
+    print("Personal Records: ")
+    
+    x = PR.keys()
+    pr_keys = list(x)
+    y = PR.values()
+    pr_values = list(y)
+    
+    count = 1
+    for iteration in pr_keys:
+        value = pr_values[count-1]
+        print(str(count) + ". " + iteration + ": " + str(value))
+        count += 1
+    
+    while True:
+        ask_pr = input("Type the number of the exercise that you want to record your new PR (or 'Q' to quit): ")
+
+        lenght_pr_keys = len(pr_keys)
+
+        if ask_pr.isdigit():
+            ask_pr = int(ask_pr)
+            if ask_pr > lenght_pr_keys:
+                print("Invalid parameter")
+                
+            elif ask_pr == 0:
+                print("Invalid parameter")
+            
+            else:
+                ask_pr -= 1
+                while True:
+                    new_record = input("Insert your new record for " + pr_keys[ask_pr] + ": ")
+                    confirm_new_record = input("Confirm (Y/N) or Quit (Q) without registering: ")
+                    
+                    while True:
+                        if confirm_new_record.lower() == "n":
+                            break
+                            
+                        elif confirm_new_record.lower() == "y":
+                            register = pr_keys[ask_pr]
+                            PR[register] = new_record
+                            return print(pr_keys[ask_pr],"new PR registered:",new_record)
+                        
+                        elif confirm_new_record.lower() == "q":
+                            return print("Quiting")
+                        
+                        else: 
+                            print("Invalid parameter")
+                            break
+
+        elif ask_pr.lower() == "q":
+            return print("Quiting")
+        
+        else:
+            print("Invalid parameter")
+            
+            
+#####################################################################################################
+
+def wod_date():
+    
+    date = ""
+    
+    while True:
+        
+        wod_year = input("Type the YEAR (4 digit) of the WOD or 'Q' to quit: ")
+
+        if wod_year.lower() == "q":
+            return print("Quiting")
+
+        elif len(wod_year) > 4 or len(wod_year) <= 3 or wod_year.isdigit() == False:
+            print("Invalid parameter")
+
+        else:
+        
+            while True:
+        
+                wod_month = input("Type the MONTH (2 digit) of the WOD, 'Y' to correct the year or 'Q' to quit: ")
+
+                if wod_month.lower() == "q":
+                    return print("Quiting")
+                
+                elif wod_month.lower() == "y":
+                    break
+
+                elif len(wod_month) > 2 or len(wod_month) <= 1 or wod_month.isdigit() == False:
+                    print("Invalid parameter")
+
+                elif int(wod_month) < 1 or int(wod_month) > 12:
+                    print("Invalid parameter")
+
+                else:
+              
+                    while True:
+
+                        wod_day = input("""Type the DAY (2 digit) of the WOD, 'M' to correct de Month 
+                                        or 'Q' to quit: """)
+
+                        if wod_day.lower() == "q":
+                            return print("Quiting")
+
+                        elif wod_day.lower() == "m":
+                            break
+
+                        elif len(wod_day) > 2 or len(wod_day) <= 1 or wod_day.isdigit() == False:
+                            print("Invalid parameter")
+
+                        elif int(wod_day) < 1 or int(wod_day) > 31:
+                            print("Invalid parameter")
+
+                        elif wod_month == "02" and int(wod_day) > 29:
+                            print("Invalid parameter")
+
+                        elif wod_month == "04" or wod_month == "06" or wod_month == "09" or wod_month == "11":
+                            if int(wod_day) > 30:
+                                print("Invalid parameter")
+
+                            else:
+                                
+                                while True:
+                                    confirm_day = input("Confirm day (y/n)? ")
+
+                                    if confirm_day.lower() == "y":
+
+                                        date += wod_year + "-" +  wod_month + "-" + wod_day
+                                        print("Date:",date)
+                                        return date
+
+                                    elif confirm_day.lower() == "n":
+                                        break
+                                        
+                                    else:
+                                        print("Invalid parameter")
+                
+                        else:
+                            while True:
+                                confirm_day = input("Confirm day (y/n)? ")
+
+                                if confirm_day.lower() == "y":
+
+                                    date += wod_year + "-" +  wod_month + "-" + wod_day
+                                    print("Date:",date)
+                                    return date
+
+                                elif confirm_day.lower() == "n":
+                                    break
+                                        
+                                else:
+                                    print("Invalid parameter")
+    
+#####################################################################################################    
+    
+def wod_(new_wod_date):
+    
+    wod_file = new_wod_date[:7]
+    
+    if os.path.isfile("./{}.txt".format(wod_file)):
+        
+        wod_month = open("{}.txt".format(wod_file), "r")
+        wod_month_read = wod_month.read()
+        
+        if new_wod_date in wod_month_read:
+            new_wod_date_index = wod_month_read.index(new_wod_date)
+            wod_month.seek(new_wod_date_index)
+            wod_read = wod_month.readline()
+            print("WOD already registered for this date:")
+            print(wod_read)
+            wod_month.close()
+            return
+        
+        else:
+            while True:
+                
+                wod_description = input("Describe the WOD or 'Q' to quit: ")
+
+                if wod_description.lower() == "q":
+                    return print("Quiting")
+
+                else:
+                    wod_score = input("Type your score or 'Q' to quit: ")
+
+                    if wod_score.lower() == "q":
+                        return print("Quiting")
+
+                    else:
+                        wod_month = open("{}.txt".format(wod_file), "a+")
+                        wod_month.write(new_wod_date)
+                        wod_month.write(" / WOD: ")
+                        wod_month.write(wod_description)
+                        wod_month.write(" / Score: ")
+                        wod_month.write(wod_score)
+                        wod_month.write("\n")
+                        wod_month.close()
+
+                        to_order = alpha_order(new_wod_date)
+
+                        return print("WOD registered. \nDate: " + new_wod_date + "\nWOD: " + wod_description + "\nScore: " + wod_score)       
+        
+    else: 
+        
+        while True:
+
+            wod_description = input("Describe the WOD or 'Q' to quit: ")
+
+            if wod_description.lower() == "q":
+                return print("Quiting")
+
+            else:
+                wod_score = input("Type your score or 'Q' to quit: ")
+
+                if wod_score.lower() == "q":
+                    return print("Quiting")
+
+                else:
+                    wod_month = open("{}.txt".format(wod_file), "w")
+                    wod_month.write(new_wod_date)
+                    wod_month.write(" / WOD: ")
+                    wod_month.write(wod_description)
+                    wod_month.write(" / Score: ")
+                    wod_month.write(wod_score)
+                    wod_month.write("\n")
+                    wod_month.close()
+
+                    return print("WOD registered. \nDate: " + new_wod_date + "\nWOD: " + wod_description + "\nScore: " + wod_score)
+
+#####################################################################################################
+
+def del_(del_wod_date):
+    
+    wod_file = del_wod_date[:7]
+    
+    if os.path.isfile("./{}.txt".format(wod_file)):
+        
+        wod_month = open("{}.txt".format(wod_file), "r")
+        wod_month_read = wod_month.read()
+
+        if del_wod_date in wod_month_read:
+
+            wod_month_read_index = wod_month_read.index(del_wod_date)
+            wod_month.seek(wod_month_read_index)
+            show_wod = wod_month.readline()
+            print(show_wod)
+
+            while True:
+
+                wod_del = input("Type 'DELETE' to delete the WOD of the setted date or 'Q' to quit: ")
+
+                if wod_del.lower() == "q":
+                    wod_month.close()
+                    return print("Quiting")
+
+                elif wod_del.lower() == "delete":
+
+                    wod_month.seek(0)
+                    wod_month_read = wod_month.readline()
+                    wods_list = []
+                    while wod_month_read:
+                        wods_list.append(wod_month_read)
+                        wod_month_read = wod_month.readline()
+                    
+                    wods_list.sort()
+                    
+                    wod_month.close()
+                    
+                    wod_month = open("{}.txt".format(wod_file), "w")
+                    for iteration in wods_list:
+                        if del_wod_date in iteration:
+                            pass
+                        else:
+                            wod_month.write(iteration)
+                    
+                    wod_month.close()
+
+
+                    ########################################
+
+                    print("WOD deleted for the date",del_wod_date)
+                    return
+
+                else:
+                    print("Invalid parameter")
+
+        else:
+            return print("No WOD found for the date",del_wod_date)
+    
+    else:
+            return print("No WOD found for the date",del_wod_date)
+    
+#####################################################################################################
+
+def alpha_order(new_wod_date):
+    
+    wod_file = new_wod_date[:7]
+    
+    to_order = open("{}.txt".format(wod_file), "r")
+    
+    order_read = to_order.readline()
+    wods_list = []
+    while order_read:
+        wods_list.append(order_read)
+        order_read = to_order.readline()
+    
+    wods_list.sort()
+    
+    to_order.close()
+    
+    to_write = open("{}.txt".format(wod_file), "w")
+    
+    for iteration in wods_list:
+        to_write.write(iteration)
+    
+    to_write.close()
+    return
+            
+            
+#####################################################################################################           
+            
+def s_history():
+    
+    while True:
+        
+        history_ask = input("Search for a day ('D') or for a month ('M')? ")
+        
+        if history_ask.lower() == "m":
+            
+            date = ""
+    
+            while True:
+
+                wod_year = input("Type the YEAR (4 digit) of the WOD or 'Q' to quit: ")
+
+                if wod_year.lower() == "q":
+                    return print("Quiting")
+
+                elif len(wod_year) > 4 or len(wod_year) <= 3 or wod_year.isdigit() == False:
+                    print("Invalid parameter")
+
+                else:
+
+                    while True:
+
+                        wod_month = input("""Type the MONTH (2 digit) of the WOD, 'Y' to correct the year 
+                                          or 'Q' to quit: """)
+
+                        if wod_month.lower() == "q":
+                            return print("Quiting")
+
+                        elif wod_month.lower() == "y":
+                            break
+
+                        elif len(wod_month) > 2 or len(wod_month) <= 1 or wod_month.isdigit() == False:
+                            print("Invalid parameter")
+
+                        elif int(wod_month) < 1 or int(wod_month) > 12:
+                            print("Invalid parameter")
+
+                        else:
+
+                            while True:
+                                confirm_month = input("Confirm month (y/n)? ")
+
+                                if confirm_month.lower() == "y":
+
+                                    date += wod_year + "-" +  wod_month
+
+                                    #######
+
+                                    print("Searching for WOD at " + date + ":")
+                                    return search_wod_month(date)
+
+
+                                    ########
+
+                                elif confirm_month.lower() == "n":
+                                    break
+
+                                else:
+                                    print("Invalid parameter")
+      
+            
+        elif history_ask.lower() == "d":
+            
+            date = ""
+    
+            while True:
+
+                wod_year = input("Type the YEAR (4 digit) of the WOD or 'Q' to quit: ")
+
+                if wod_year.lower() == "q":
+                    return print("Quiting")
+
+                elif len(wod_year) > 4 or len(wod_year) <= 3 or wod_year.isdigit() == False:
+                    print("Invalid parameter")
+
+                else:
+
+                    while True:
+
+                        wod_month = input("""Type the MONTH (2 digit) of the WOD, 'Y' to correct the year 
+                                          or 'Q' to quit: """)
+
+                        if wod_month.lower() == "q":
+                            return print("Quiting")
+
+                        elif wod_month.lower() == "y":
+                            break
+
+                        elif len(wod_month) > 2 or len(wod_month) <= 1 or wod_month.isdigit() == False:
+                            print("Invalid parameter")
+
+                        elif int(wod_month) < 1 or int(wod_month) > 12:
+                            print("Invalid parameter")
+
+                        else:
+
+                            while True:
+
+                                wod_day = input("""Type the DAY (2 digit) of the WOD, 'M' to correct de Month 
+                                                or 'Q' to quit: """)
+
+                                if wod_day.lower() == "q":
+                                    return print("Quiting")
+
+                                elif wod_day.lower() == "m":
+                                    break
+
+                                elif len(wod_day) > 2 or len(wod_day) <= 1 or wod_day.isdigit() == False:
+                                    print("Invalid parameter")
+
+                                elif int(wod_day) < 1 or int(wod_day) > 31:
+                                    print("Invalid parameter")
+
+                                elif wod_month == "02" and int(wod_day) > 29:
+                                    print("Invalid parameter")
+
+                                elif wod_month == "04" or wod_month == "06" or wod_month == "09" or wod_month == "11":
+                                              
+                                    if int(wod_day) > 30:
+                                        print("Invalid parameter")
+
+                                    else:
+
+                                        while True:
+                                            confirm_day = input("Confirm day (y/n)? ")
+
+                                            if confirm_day.lower() == "y":
+
+                                                date += wod_year + "-" +  wod_month + "-" + wod_day
+
+
+                                                #######
+
+                                                print("Searching for WOD at " + date + ":")
+                                                return search_wod_day(date)
+
+
+                                                ########
+
+
+
+                                            elif confirm_day.lower() == "n":
+                                                break
+
+                                            else:
+                                                print("Invalid parameter")
+
+                                else:
+                                    while True:
+                                        confirm_day = input("Confirm day (y/n)? ")
+
+                                        if confirm_day.lower() == "y":
+
+                                            date += wod_year + "-" +  wod_month + "-" + wod_day
+                                                                                                
+                                            ########
+                                                
+                                            print("Searching for WOD at " + date + ":")
+                                            return search_wod_day(date)
+                                                
+                                            ###########
+                                                                                                                                            
+                                        elif confirm_day.lower() == "n":
+                                            break
+
+                                        else:
+                                            print("Invalid parameter")
+                                            
+            return
+        
+        else:
+            print("Invalid parameter")
+
+#####################################################################################################
+
+def search_wod_month(date):
+    
+    wod_file = date[:7]
+    
+    if os.path.isfile("./{}.txt".format(wod_file)):
+        
+        wod_month = open("{}.txt".format(wod_file), "r")
+        wod_month_read = wod_month.read()
+        print(wod_month_read)
+        wod_month.close()
+        return
+    
+    else:
+        return print("No WOD registered for this Month")
+
+#################
+
+def search_wod_day(date):
+    
+    wod_file = date[:7]
+    
+    if os.path.isfile("./{}.txt".format(wod_file)):
+        
+        wod_month = open("{}.txt".format(wod_file), "r")
+        wod_month_read = wod_month.read()
+        
+        if date in wod_month_read:
+            
+            date_index = wod_month_read.index(date)
+            wod_month.seek(date_index)
+            search_read_wod = wod_month.readline()
+            print(search_read_wod)
+
+            wod_month.close()
+            return
+    
+        else:
+            wod_month.close()
+            return print("No WOD registered for this date")
+    
+    else:
+        return print("No WOD registered for this Day")
+        
+        
+######
+######
+######
+
+while True:
+    PR_or_wod = input("Type 'PR', 'WOD' or 'Q' to quit: ")
+
+    if PR_or_wod.lower() == "pr":
+
+        while True:
+            pr_what = input("Type 'PR' to check your PR's, 'R' to register a new PR or 'E' to exit this menu: ")
+
+            if pr_what.lower() == "r":
+                print()
+                new_pr = pr_()
+
+            elif pr_what.lower() == "pr":
+                print()
+                print("Personal Records: ")
+                
+                x = PR.keys()
+                pr_keys = list(x)
+                y = PR.values()
+                pr_values = list(y)
+                
+                count = 1
+                for iteration in pr_keys:
+                    value = pr_values[count-1]
+                    print(str(count) + ". " + iteration + ": " + str(value))
+                    count += 1
+
+            elif pr_what.lower() == "e":
+                print("Exiting")
+                break
+            
+            else:
+                print("Invalid parameter")
+
+
+###########################################
+
+    elif PR_or_wod.lower() == "wod":
+        
+        while True:
+            wod_what = input("Type 'S' to check past scores, 'R' to register a new WOD, 'D' to delete a score or 'E' to exit this menu: ")
+            
+            if wod_what.lower() == "s":
+                print()
+                scores_history = s_history()
+                     
+            elif wod_what.lower() == "r":
+                print()
+                new_wod_date = wod_date()
+                new_wod = wod_(new_wod_date)
+                
+            elif wod_what.lower() == "d":
+                print()
+                del_wod_date = wod_date()
+                delete_wod = del_(del_wod_date)
+            
+            elif wod_what.lower() == "e":
+                print("Exiting")
+                break
+            
+            else:
+                print("Invalid parameter")
+        
+
+###########################################
+
+    elif PR_or_wod.lower() == "q":
+
+        print("Quiting")
+        break
+
+###########################################
+
+    else:
+        print()
+        print("Invalid parameter")
+        print()
