@@ -1,0 +1,315 @@
+def add():
+
+    while True:
+                agenda = open("agenda.txt", "a+")
+                name = input("Name to add: ")
+                number = input("Number to add: ")
+                agenda.write(name + " " + number + "\n")
+                print()
+                print(name,number,"added")
+                print()
+
+                while True:
+
+                    to_add = input("Type '+' to Add or 'Q' to Quit: ")
+
+                    if to_add == "+":
+                        break
+
+                    elif to_add.lower() == "q":
+                        break
+
+
+                if to_add.lower() == "q":
+
+                    agenda.close()
+                    agenda = open("agenda.txt", "r")
+
+                    agenda.seek(0)
+
+                    list_b = []
+
+                    items_line = agenda.readline().strip()
+
+                    while items_line:
+                        list_b.append(items_line)
+                        items_line = agenda.readline().strip()
+
+                    list_b.sort()
+
+                    agenda.close()
+
+                    agenda = open("agenda.txt", "w")
+
+                    for iteration in list_b:
+                        agenda.write(iteration + "\n")
+
+                    agenda.close()
+                    break
+                    
+===========================================================================================================
+
+def search_():
+
+    print()
+    agenda = open("agenda.txt", "r")
+    
+    search = []
+    items = agenda.readline().strip()
+    while items:
+        search.append(items)
+        items = agenda.readline().strip()
+        
+    result_ = []
+        
+    while True:
+        name = input("Type the name you want to search of 'Q' to Quit: ")
+
+        if name.lower() == "q":
+            agenda.close()
+            break
+            
+        else:    
+            for iteration in search:
+                if name in iteration:
+                    if iteration in result_:
+                        pass
+                    else:
+                        result_.append(iteration)
+                
+        if result_:
+            print()
+            print("Results found:\n")
+            for iteration in result_:
+                print("-",iteration)
+                    
+            agenda.close()
+            break
+                    
+        else:
+            print()
+            print("Name not found") 
+            print()
+            
+===========================================================================================================
+
+def minus():
+
+    # opening file
+    
+    agenda = open("agenda.txt", "r+")
+
+    # file to list
+    
+    agenda_item = agenda.readline().strip()
+    
+    list_b = []
+
+    while agenda_item:
+        list_b.append(agenda_item)
+        agenda_item = agenda.readline().strip()
+    
+    # closing and re-opening file
+    
+    agenda.close()
+    
+    agenda = open("agenda.txt", "r+")
+    agenda_total = agenda.read()
+    
+    # calling action
+
+    while True:
+        
+        print()
+        delete_ = input("Type the name to delete, 'all' to check full list of contacts or 'Q' to Quit: ")
+        
+        # all
+        
+        if delete_.lower() == "all":
+            print()
+            print(agenda_total)
+            delete = input("Type the name to delete or 'Q' to Quit: ")
+
+            if delete.lower() == "q":
+                break
+
+            else:
+
+                del_list_ = []
+
+                for iteration in list_b:
+                    divided = iteration.split()
+
+                    if delete in divided[0]:
+                        del_list_.append(iteration)
+
+                if del_list_:
+                    print()
+                    print("List of contacts with typed name: ")
+                    print()
+                    count = 1
+                    for iteration in del_list_:
+                        print(str(count) + ". "+ iteration)
+                        count += 1
+                        
+                    count -= 1
+
+                    while True: 
+                        to_del = input("Type the item number to be deleted of 'Q' to Quit: ")
+
+                        if to_del.isdigit() and int(to_del) > 0 and int(to_del) <= count:
+                            
+                            to_del = int(to_del)
+                            
+                            erase = del_list_[to_del-1]
+                            list_b.remove(erase)
+
+                            print()
+                            print(del_list_.pop(to_del-1),"successfully removed")
+                            print()
+                            break
+                        
+                        elif to_del.lower() == "q":
+                            break
+                            
+                        else:
+                            print("Invalid parameter")
+
+                else:
+                    print()
+                    print("Name not found")
+                    return minus()
+        
+        # quit
+        
+        elif delete_.lower() == "q":
+            break
+        
+        # by name            
+                    
+        else:
+            del_list_ = []
+
+            for iteration in list_b:    
+                divided = iteration.split()
+
+                if delete_ in divided[0]:
+                    del_list_.append(iteration)
+
+            if del_list_:
+                print()
+                print("List of contacts with typed name: ")
+                print()
+                count = 1
+                for iteration in del_list_:
+                    print(str(count) + ". "+ iteration)
+                    count += 1
+                    
+                count -= 1
+
+                while True: 
+                    print()
+                    to_del = input("Type the item number to be deleted or 'Q' to Quit: ")
+
+                    if to_del.isdigit() and int(to_del) > 0 and int(to_del) <= count:
+                        
+                        to_del = int(to_del)
+                        
+                        erase = del_list_[to_del-1]
+                        list_b.remove(erase)
+
+                        print()
+                        print(del_list_.pop(to_del-1),"successfully removed")
+                        print()
+                        break
+            
+                    elif to_del.lower() == "q":
+                        break
+
+                    else:
+                        print("Invalid parameter")
+
+
+            else:
+                print()
+                print("Name not found")
+                return minus()
+                    
+
+        break
+
+    agenda.close()
+
+    agenda = open("agenda.txt", "w")
+
+    for iteration in list_b:
+        agenda.write(iteration + "\n")
+
+    agenda.close()
+    
+===========================================================================================================
+
+def all_():
+    print()
+    agenda = open("agenda.txt", "r")
+    agenda.seek(0)
+        
+    to_read = agenda.read()
+    
+    print(to_read)
+        
+    agenda.close()
+    
+===========================================================================================================
+
+while True:
+    
+    command = input("Type '+' to Add, 'S' to Search, '-' to Delete, 'All' to full list of contacts or 'Q' to Quit: ")
+
+    if command == "+":
+        
+        somar = add()
+                
+    ##################################
+
+    elif command.lower() == "s":
+        
+        import os
+        if os.path.isfile("agenda.txt"):
+            search = search_()
+            
+        else:
+            print()
+            print("No contacts")
+                
+    ##################################
+    
+    elif command == "-":
+  
+        import os
+        if os.path.isfile("agenda.txt"):
+            delete_ = minus()
+            
+        else:
+            print()
+            print("No contacts")
+    
+    ##################################    
+    
+    elif command.lower() == "q":
+        print()
+        print("Quiting")
+        break
+        
+        
+    ##################################
+    
+    elif command.lower() == "all":
+        
+        import os
+        if os.path.isfile("agenda.txt"):
+            todos_ = all_()
+            
+        else:
+            print()
+            print("No contacts")
