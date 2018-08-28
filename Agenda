@@ -308,7 +308,7 @@ while True:
         
         import os
         if os.path.isfile("agenda.txt"):
-            todos_ = all_()
+            all_of_it = all_()
             
         else:
             print()
