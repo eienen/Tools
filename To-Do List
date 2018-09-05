@@ -2,22 +2,22 @@ def to_do():
     to_do = []
     todo = ""
     
-    lista_done = []
+    list_done = []
     donne = ""
     
     while True:
-        escolha = input("What you want to do (\"A\" to add, \"R\" to remove, \"D\" to mark as done, \"Q\" to quit)? ")
+        choice = input("Type \"A\" to add, \"R\" to remove, \"D\" to mark as done or \"Q\" to quit: ")
         print()
         
-        if escolha.lower() == "a":
+        if choice.lower() == "a":
             
-            add1 = add_(to_do,todo,lista_done,donne)
+            add1 = add_(to_do,todo,list_done,donne)
             
             todo = add1[1]
             to_do = add1[0] 
             
             donne = add1[3]
-            lista_done = add1[2]
+            list_done = add1[2]
             
             if to_do:
                 print("Your To Do list is: \n"+ todo)
@@ -26,22 +26,22 @@ def to_do():
                 print("*** No items To Do ***")
                 print()
             
-            if lista_done:
+            if list_done:
                 print("Your Done list is: \n" + donne) 
                 print()
             else:
                 print("*** No items Done ***")
                 print()
 
-        elif escolha.lower() == "r":
+        elif choice.lower() == "r":
             
-            remove1 = remove_(to_do,todo,lista_done,donne)
+            remove1 = remove_(to_do,todo,list_done,donne)
             
             todo = remove1[1]
             
             donne = remove1[3]
-            lista_done = donne.split("\n")
-            lista_done.pop()
+            list_done = donne.split("\n")
+            list_done.pop()
             
             if to_do:
                 print("Your To Do list is: \n" + todo) 
@@ -49,13 +49,13 @@ def to_do():
             else:
                 pass
             
-            if lista_done:
+            if list_done:
                 print("Your Done list is: \n" + donne)
                 print()
             else:
                 pass
             
-            if to_do ==[] and lista_done == []:
+            if to_do ==[] and list_done == []:
                 print()
                 print("*** No itens to be Removed ***")
                 print()
@@ -65,21 +65,21 @@ def to_do():
                 print()
                 print("Your Done list is: \n" + donne)
                 
-            elif lista_done == []:
+            elif list_done == []:
                 print()
                 print("You To Do list is: \n" + todo)
                 print("*** No itens Done ***")
                 print()            
 
-        elif escolha.lower() == "d":
+        elif choice.lower() == "d":
             
-            done1 = done_(to_do,todo,lista_done,donne)
+            done1 = done_(to_do,todo,list_done,donne)
             
             todo = done1[1]
             
             donne = done1[3]
-            lista_done = donne.split("\n")
-            lista_done.pop()
+            list_done = donne.split("\n")
+            list_done.pop()
             
             if to_do:
                 print("Your To Do list is: \n" + todo) 
@@ -87,13 +87,13 @@ def to_do():
             else:
                 pass
             
-            if lista_done:
+            if list_done:
                 print("Your Done list is: \n" + donne)
                 print()
             else:
                 pass
             
-            if to_do == [] and lista_done == []:
+            if to_do == [] and list_done == []:
                 print("*** No itens to be marked as Done ***")
                 print()
                 
@@ -102,14 +102,14 @@ def to_do():
                 print("*** No itens to be marked as Done ***")
                 print("Your Done list is: \n" + donne)
                 
-            elif lista_done == []:
+            elif list_done == []:
                 print()
                 print("You To Do list is: \n" + todo)
                 print()
                 print("*** No itens Done ***")
                 print()
                 
-        elif escolha.lower() == "q":
+        elif choice.lower() == "q":
             print()
             print("Quiting")
             print()
@@ -121,7 +121,7 @@ def to_do():
                 print("***No items To Do***")
                 print()
             
-            if lista_done:
+            if list_done:
                 print("Your Done list is: \n" + donne)
                 print()
             else:
@@ -137,11 +137,11 @@ def to_do():
 ##########################################################################################################
 
 
-def add_(to_do,todo,lista_done,donne):
+def add_(to_do,todo,list_done,donne):
     
     while True:
         
-        add = input("Type what you want to add to your list (or \"Q\" to quit): ").capitalize()
+        add = input("Type what you want to add to your list or \"Q\" to quit: ").capitalize()
         
         if add.lower() == "q":
             print("Quiting")
@@ -163,13 +163,13 @@ def add_(to_do,todo,lista_done,donne):
     
     
     
-    return [to_do,todo,lista_done,donne]
+    return [to_do,todo,list_done,donne]
 
     
 ##############################################################################################################
 
 
-def remove_(to_do,todo,lista_done,donne):
+def remove_(to_do,todo,list_done,donne):
             
     if to_do:
         
@@ -184,7 +184,7 @@ def remove_(to_do,todo,lista_done,donne):
             print()
             print("Your TO DO list is: \n" + todo + "\n")
             
-            remove = input("Type the # of the task you want to remove from your list (or \"Q\" to quit): ")
+            remove = input("Type the # of the task you want to remove from your list or \"Q\" to quit: ")
             if remove.lower() == "q":
                 print("Quiting")
                 print()
@@ -218,12 +218,12 @@ def remove_(to_do,todo,lista_done,donne):
     if to_do == []:
         todo = ""
     
-    return [to_do,todo,lista_done,donne]
+    return [to_do,todo,list_done,donne]
             
 ##############################################################################################################
             
             
-def done_(to_do,todo,lista_done,donne):
+def done_(to_do,todo,list_done,donne):
     
     if to_do:
         while to_do:
@@ -236,10 +236,10 @@ def done_(to_do,todo,lista_done,donne):
             
             print("Your To Do list is: \n" + todo)
             
-            if lista_done:
+            if list_done:
                 num = 1
                 donne = ""
-                for iteration in lista_done:
+                for iteration in list_done:
                     donne += str(num) + ". " + iteration + "\n"
                     num += 1
                 
@@ -268,7 +268,7 @@ def done_(to_do,todo,lista_done,donne):
                     print()
                     print("You marked -",to_do[int_done_item],"- as done!")
                     print()
-                    lista_done.append(to_do[int_done_item])
+                    list_done.append(to_do[int_done_item])
                     to_do.pop(int_done_item)
 
                 else:
@@ -285,17 +285,17 @@ def done_(to_do,todo,lista_done,donne):
     if to_do == []:
         todo = ""
         
-    if lista_done == []:
+    if list_done == []:
         donne = ""
     
-    if lista_done:
+    if list_done:
         num = 1
         donne = ""
-        for iteration in lista_done:
+        for iteration in list_done:
             donne += str(num) + ". " + iteration + "\n"
             num += 1
     
-    return [to_do,todo,lista_done,donne] 
+    return [to_do,todo,list_done,donne] 
             
 ##############################################################################################################            
 
