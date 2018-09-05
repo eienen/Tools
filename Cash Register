@@ -1,0 +1,106 @@
+change = 800
+income = 0
+comissions_c = 0
+comissions_d = 0
+
+
+#################################
+
+def purchase():
+    
+    purchase_cost = 0
+    
+    while True:
+        product = input("Product value or 'q' to quit: ")
+        
+        if product.lower() == "q":
+            return purchase_cost
+            break
+        
+        elif product == "":
+            print("Invalid parameter")
+            
+        elif product.isdigit() == False:
+            print("Invalid parameter")
+        
+        else:
+            product = float(product)
+            purchase_cost += product
+            
+            
+def credit(purchase_cost, income, comissions_c):
+    comission_c = purchase_cost * 0.03
+    balance = purchase_cost - comission_c
+    income += balance
+    comissions_c += comission_c
+    return [balance, comission_c, comissions_c, income]
+    
+
+def debit(purchase_cost, income, comissions_d):
+    comission_d = purchase_cost * 0.02
+    balance = purchase_cost - comission_d
+    income += balance
+    comissions_d += comission_d
+    return [balance, comission_d, comissions_d, income] 
+
+def cash(purchase_cost, income, change): 
+    while True:
+        change_ = input("Need change (Y/N)?: ")
+        
+        if change_.lower() == "y":
+            pay_change_ = input("Change for how much?: ")
+            pay_change_ = int(pay_change_)
+
+            if pay_change_ > purchase_cost:
+                change_back = pay_change_ - purchase_cost
+                change =- change_back
+                income += purchase_cost
+                return [purchase_cost, income, change, change_back]
+            
+        else:
+            income += purchase_cost
+            return [purchase_cost, income, change]
+    
+
+purchase_cost = purchase() 
+print("Total is $",purchase_cost)
+print()
+
+while True:
+    
+    if purchase_cost == 0:
+        break
+    
+    payment = input("How you want to pay? C - Credit; D - Debit; Ca - Cash: ")
+
+    if payment.lower() == "c":
+        pay_credit = credit(purchase_cost,income,comissions_c)
+        print("Added to Cash Register $",pay_credit[0])
+        print("Comission to Credit Card $",pay_credit[1])
+        print("Total Credit card comissions today $",pay_credit[2])
+        print("Total sales today $",pay_credit[3])
+        income += pay_credit[3]
+        comissions_c += pay_credit[2]
+        break
+
+    elif payment.lower() == "d":
+        pay_debit = debit(purchase_cost,income,comissions_d)
+        print("Added to Cash Register $",pay_debit[0])
+        print("Comission to debit card $",pay_debit[1])
+        print("Total Debit card comissions today $",pay_debit[2])
+        print("Total sales today $",pay_debit[3])
+        income += pay_debit[3]
+        comissions_d += pay_debit[2]
+        break
+
+    elif payment.lower() == "ca":
+        pay_cash = cash(purchase_cost,income,change)
+        print("Added to Cash Register $",pay_cash[0])
+        print("Total sales today $",pay_cash[1])
+        if len(pay_cash) > 3:
+            change -= pay_cash[3]
+        print("Total change still available $",change)
+        income += pay_cash[1]
+        break
+    else:
+        print("Invalid parameter")
