@@ -1,0 +1,31 @@
+car = int(input("Car value: "))
+print()
+licensing = 100
+print("\tlicensing = $",str(licensing))
+ipva = (car/100) * 4
+print("\tIPVA = $",str(ipva))
+insurance = 1500
+print("\tinsurance = $",str(insurance))
+fuel = 400 * 12
+print("\tFuel =",str(fuel))
+extras = 50 * 12
+print("\tOther expenses (car wash, parking, repairing) = ",extras)
+print()
+year_total = licensing + ipva + insurance + fuel
+print("\tYear Total = $",year_total)
+monthly = year_total/12
+monthly_cost = "{0:.2f}".format(monthly)
+print("\tMonthly Cost = $",monthly_cost)
+print()
+print()
+
+print("UBER")
+print()
+daily = int(input("Type your daily expense with Uber: $"))
+print("\tDaily Cost = $",daily)
+week = daily * 5
+print("\tWeekly Cost = $",week)
+extras = 120
+print("\tExtra expenses = $",extras)
+month = (week * 4) + extras
+print("\tMonthly Cost = $",month)
