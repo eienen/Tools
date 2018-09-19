@@ -1,0 +1,63 @@
+import random
+
+def casino(a,b,c):
+    
+    if a == b and a == c:
+        return "Millionaire!"
+    
+    else:
+        while True:
+            again = (input("Try again? (Y/N): "))
+
+            if again.lower() == "n":
+                return "Bye"
+
+            elif again.lower() == "y":
+                
+                options = ("Cherry", "7", "BAR", "Bell", "Watermelon", "Horseshoe", "$")
+                a = random.choice(options)
+                b = random.choice(options)
+                c = random.choice(options)
+                
+                print(a,b,c)
+                
+                return (casino(a,b,c))
+
+            else:
+                print("Invalid parameter")
+
+
+options = ("Cherry", "7", "BAR", "Bell", "Watermelon", "Horseshoe", "$")
+
+a = random.choice(options)
+b = random.choice(options)
+c = random.choice(options)
+
+print(a,b,c)
+
+print(casino(a,b,c))
+
+
+#################################
+
+# just a version to count how long until 3 equals:
+
+import random
+
+count = 1
+
+while True:
+    
+    options = ("Cherry", "7", "BAR", "Bell", "Watermelon", "Horseshoe", "$")
+
+    a = random.choice(options)
+    b = random.choice(options)
+    c = random.choice(options)
+    
+    if a == b and a == c:
+        print(count,a,b,c,"MILLIONAIRE")
+        break
+
+    else:
+        print(count,a,b,c)
+        count += 1
