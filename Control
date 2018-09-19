@@ -1,1 +1,103 @@
+users = open("control_users_.txt", "r")
+users_read = users.readlines()
 
+users_list = []
+for iteration in users_read:
+    list_b = iteration.split()
+    users_list.append(list_b)
+    
+users.close()
+
+####################################
+
+def b_to_mb(x):
+    mb_ = (x/1024)/1024
+    mb = "{0:.2f}".format(mb_)
+    mb = float(mb)
+    return mb
+
+for iteration in users_list:
+    iteration[1] = float(iteration[1])
+    
+# bytes to Mb
+for iteration in users_list:
+    x = iteration[1]
+    z = b_to_mb(x)
+    iteration[1] = z
+
+####################################
+
+def percent_space(value,total):
+    pctual_ = (value/total) * 100
+    pctual = "{0:.2f}".format(pctual_)
+    pctual = float(pctual)
+    return pctual
+
+total_spc = 0
+for iteration in users_list:
+    total_spc += iteration[1]
+total_space = "{0:.2f}".format(total_spc)
+
+# PCT
+for iteration in users_list:
+    pct = percent_space(iteration[1],total_spc)
+    iteration.append(str(pct)+"%")
+    
+# average space
+count = 0
+for iteration in users_list:
+    count += 1
+median_ = total_spc/count
+median = "{0:.2f}".format(median_)
+
+
+print("Total Space:",total_space)
+print()
+print("Median:",median)
+
+####################################
+
+# counting
+
+count = 1
+for iteration in users_list:
+    iteration.insert(0,str(count))
+    count += 1
+    
+print(users_list)
+
+####################################
+
+report = open("report_.txt", "w")
+
+report.write("{0:20s}{1:50s}".format("ACME Inc.","Disk Space usage by Users"))
+
+report.write("\n")
+report.write("{0:90s}".format("------------------------------------------------------------"))
+
+report.write("\n")
+report.write("{0:6s}{1:20s}{2:18s}{3:10s}".format("N.","User","Usage","Usage %"))
+
+report.write("\n")
+report.write("\n")
+
+for iteration in users_list:
+    report.write("{0:6s}{1:15s}{2:>12s}{3:>17s}".format(iteration[0],iteration[1],str(iteration[2]) + " MB",iteration[3]))
+    report.write("\n")
+
+report.write("\n")
+report.write("Total Space used: ")
+report.write(total_space)
+report.write(" MB")
+
+report.write("\n")
+report.write("Average Space used: ")
+report.write(median)
+report.write(" MB")
+
+
+report.close()
+
+report = open("report_.txt", "r")
+report_read = report.read()
+print(report_read)
