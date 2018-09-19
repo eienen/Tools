@@ -1,0 +1,23 @@
+def coding(phrase):
+    clean_char = "ABCDEFGHIJKLMNOPQRTSUVWXYZ1234567890.?! "
+    coded_char = "GIHF321TUVS45KLMJ0. ACD!EB678WXYZ9NPQO?R"
+    
+    coded_phrase = ""
+    for iteration in phrase.upper():
+        if iteration in clean_char:
+            letter = clean_char.index(iteration)
+            coded_phrase += coded_char[letter]
+            
+    return coded_phrase
+    
+def decoding(phrase):
+    clean_char = "ABCDEFGHIJKLMNOPQRTSUVWXYZ1234567890.?! "
+    coded_char = "GIHF321TUVS45KLMJ0. ACD!EB678WXYZ9NPQO?R"
+    
+    decoded_phrase = ""
+    for iteration in phrase.upper():
+        if iteration in coded_char:
+            letter = coded_char.index(iteration)
+            decoded_phrase += clean_char[letter]
+            
+    return decoded_phrase
